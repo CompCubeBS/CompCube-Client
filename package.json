@@ -1,0 +1,34 @@
+{
+  "name": "compcube-client",
+  "version": "0.1.0",
+  "description": "Typed REST client for the CompCube API",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node --test tests/*.test.mjs"
+  },
+  "keywords": [
+    "compcube",
+    "beat-saber",
+    "api",
+    "typescript"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.8.3"
+  }
+}
