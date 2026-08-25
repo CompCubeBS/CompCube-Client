@@ -61,7 +61,7 @@ The client exposes typed resources for:
 
 - `account`, `auth`, and `users`
 - `statistics`, `leaderboard`, and `seasons`
-- `pools`, `maps`, `flairs`, and `queues`
+- `pools`, `maps`, `mapCategories`, and `queues`
 - `matches`, `rounds`, `scores`, `timers`, and `moderation`
 - `server`, including OpenAPI and AsyncAPI contracts
 

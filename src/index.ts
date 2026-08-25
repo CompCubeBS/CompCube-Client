@@ -4,7 +4,7 @@ export * from "./socket.js";
 export * from "./types.js";
 export * from "./resources/account.js";
 export * from "./resources/auth.js";
-export * from "./resources/flairs.js";
+export * from "./resources/mapCategories.js";
 export * from "./resources/leaderboard.js";
 export * from "./resources/maps.js";
 export * from "./resources/matches.js";

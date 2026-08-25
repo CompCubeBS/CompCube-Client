@@ -156,7 +156,7 @@ export interface SeasonPool {
 	maps?: MapEntry[];
 }
 
-export interface Flair {
+export interface MapCategory {
 	guid: Guid;
 	name: string;
 	imageUrl: string | null;
@@ -167,7 +167,7 @@ export interface Flair {
 export interface MapEntry {
 	guid: Guid;
 	poolGuid: Guid;
-	flairGuid: Guid | null;
+	categoryGuid: Guid | null;
 	name: string;
 	imageUrl: string | null;
 	hash: string;
@@ -180,7 +180,7 @@ export interface MapEntry {
 	createdAt: string;
 	updatedAt: string;
 	pool?: SeasonPool;
-	flair?: Flair | null;
+	category?: MapCategory | null;
 }
 
 export interface Queue {
@@ -247,6 +247,7 @@ export interface Match {
 	hands?: MatchHand[];
 	rounds?: MatchRound[];
 	mapActions?: MatchMapAction[];
+	auditEvents?: MatchAuditEvent[];
 	statusHistory?: MatchStatusHistory[];
 	timers?: MatchTimer[];
 }
@@ -296,6 +297,22 @@ export interface MatchMapAction {
 	createdAt: string;
 	user?: User;
 	map?: MapEntry;
+}
+
+export interface MatchAuditEvent {
+	guid: Guid;
+	matchGuid: Guid;
+	userGuid: Guid | null;
+	timerGuid: Guid | null;
+	eventType: "initial_hand_dealt" | "discards_submitted" | "replacement_maps_dealt" | "map_picked" | "score_submitted" | "score_defaulted";
+	source: "player" | "server";
+	timerExpired: boolean;
+	elapsedMs: number | null;
+	remainingMs: number | null;
+	metadata: Record<string, unknown>;
+	createdAt: string;
+	user?: User | null;
+	timer?: MatchTimer | null;
 }
 
 export interface MatchRound {

@@ -7,7 +7,7 @@ export interface CreateMapInput {
 	characteristic: string;
 	difficulty: Difficulty;
 	modifiers?: MapModifier[];
-	flairGuid?: string | null;
+	categoryGuid?: string | null;
 }
 
 export class MapsResource {
@@ -54,7 +54,7 @@ export class MapsResource {
 		);
 	}
 	update(
-		input: Partial<Pick<MapEntry, "flairGuid" | "modifiers">> & {
+		input: Partial<Pick<MapEntry, "categoryGuid" | "modifiers">> & {
 			mapGuid: string;
 		},
 	) {

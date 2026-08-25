@@ -118,3 +118,17 @@ test("maps use pool-scoped creation and GUID administration", async () => {
 	);
 	assert.equal(requests[0].url, "https://example.test/pools/pool/maps");
 });
+
+test("map categories use the renamed public API", async () => {
+	const requests = [];
+	const client = mockClient(async (url, init) => {
+		requests.push({ url, method: init.method });
+		return Response.json([]);
+	});
+	await client.mapCategories.list();
+	await client.mapCategories.get({ categoryGuid: "speed" });
+	assert.deepEqual(requests, [
+		{ url: "https://example.test/map-categories", method: "GET" },
+		{ url: "https://example.test/map-categories/speed", method: "GET" },
+	]);
+});

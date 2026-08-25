@@ -166,6 +166,7 @@ export interface ServerSocketEvents {
 		redHealth: number;
 		blueHealth: number;
 		scores: MatchScore[];
+		resultsDueAt: string | null;
 	};
 	timerUpdated: { matchGuid: string; timer: MatchTimer };
 	matchPaused: { matchGuid: string; previousStatus: MatchStatus };

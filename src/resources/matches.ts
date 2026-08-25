@@ -1,6 +1,7 @@
 import { encode, type ClientTransport } from "../core.js";
 import type {
 	Match,
+	MatchAuditEvent,
 	MatchHand,
 	MatchMapAction,
 	MatchParticipant,
@@ -32,6 +33,11 @@ export class MatchesResource {
 	mapActions(input: { matchGuid: string }) {
 		return this.transport.get<MatchMapAction[]>(
 			`/matches/${encode(input.matchGuid)}/map-actions`,
+		);
+	}
+	auditEvents(input: { matchGuid: string }) {
+		return this.transport.get<MatchAuditEvent[]>(
+			`/matches/${encode(input.matchGuid)}/audit-events`,
 		);
 	}
 	participants(input: { matchGuid: string }) {

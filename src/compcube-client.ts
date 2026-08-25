@@ -5,7 +5,7 @@ import {
 } from "./core.js";
 import { AccountResource } from "./resources/account.js";
 import { AuthResource } from "./resources/auth.js";
-import { FlairsResource } from "./resources/flairs.js";
+import { MapCategoriesResource } from "./resources/mapCategories.js";
 import { LeaderboardResource } from "./resources/leaderboard.js";
 import { MapsResource } from "./resources/maps.js";
 import { MatchesResource } from "./resources/matches.js";
@@ -27,7 +27,7 @@ export class CompCubeClient {
 	private readonly transport: ClientTransport;
 	public readonly account: AccountResource;
 	public readonly auth: AuthResource;
-	public readonly flairs: FlairsResource;
+	public readonly mapCategories: MapCategoriesResource;
 	public readonly leaderboard: LeaderboardResource;
 	public readonly maps: MapsResource;
 	public readonly matches: MatchesResource;
@@ -50,7 +50,7 @@ export class CompCubeClient {
 		this.transport = new ClientTransport(options);
 		this.account = new AccountResource(this.transport);
 		this.auth = new AuthResource(this.transport);
-		this.flairs = new FlairsResource(this.transport);
+		this.mapCategories = new MapCategoriesResource(this.transport);
 		this.leaderboard = new LeaderboardResource(this.transport);
 		this.maps = new MapsResource(this.transport);
 		this.matches = new MatchesResource(this.transport);
