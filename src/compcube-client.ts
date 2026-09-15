@@ -13,6 +13,7 @@ import { ModerationResource } from "./resources/moderation.js";
 import { MockClientsResource } from "./resources/mockClients.js";
 import { PoolsResource } from "./resources/pools.js";
 import { QueuesResource } from "./resources/queues.js";
+import { ReportsResource } from "./resources/reports.js";
 import { RoundsResource } from "./resources/rounds.js";
 import { ScoresResource } from "./resources/scores.js";
 import { SeasonsResource } from "./resources/seasons.js";
@@ -35,6 +36,7 @@ export class CompCubeClient {
 	public readonly mockClients: MockClientsResource;
 	public readonly pools: PoolsResource;
 	public readonly queues: QueuesResource;
+	public readonly reports: ReportsResource;
 	/** Compatibility alias for the earlier singular resource name. */
 	public readonly queue: QueuesResource;
 	public readonly rounds: RoundsResource;
@@ -58,6 +60,7 @@ export class CompCubeClient {
 		this.mockClients = new MockClientsResource(this.transport);
 		this.pools = new PoolsResource(this.transport);
 		this.queues = new QueuesResource(this.transport);
+		this.reports = new ReportsResource(this.transport);
 		this.queue = this.queues;
 		this.rounds = new RoundsResource(this.transport);
 		this.scores = new ScoresResource(this.transport);

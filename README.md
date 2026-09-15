@@ -62,7 +62,7 @@ The client exposes typed resources for:
 - `account`, `auth`, and `users`
 - `statistics`, `leaderboard`, and `seasons`
 - `pools`, `maps`, `mapCategories`, and `queues`
-- `matches`, `rounds`, `scores`, `timers`, and `moderation`
+- `matches`, `rounds`, `scores`, `timers`, `reports`, and `moderation`
 - `server`, including OpenAPI and AsyncAPI contracts
 
 REST documentation is available at `/docs` and the Socket.IO/AsyncAPI viewer at `/docs/ws` on the backend. The machine-readable contracts are `/openapi.json` and `/socket-docs.json`.

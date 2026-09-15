@@ -12,6 +12,7 @@ export * from "./resources/moderation.js";
 export * from "./resources/mockClients.js";
 export * from "./resources/pools.js";
 export * from "./resources/queues.js";
+export * from "./resources/reports.js";
 export * from "./resources/rounds.js";
 export * from "./resources/scores.js";
 export * from "./resources/seasons.js";

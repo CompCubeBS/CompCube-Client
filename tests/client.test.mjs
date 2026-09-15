@@ -132,3 +132,53 @@ test("map categories use the renamed public API", async () => {
 		{ url: "https://example.test/map-categories/speed", method: "GET" },
 	]);
 });
+
+test("reports an opponent with authenticated post-match context", async () => {
+	const requests = [];
+	const client = mockClient(async (url, init) => {
+		requests.push({
+			url,
+			method: init.method,
+			authorization: new Headers(init.headers).get("authorization"),
+			body: JSON.parse(init.body),
+		});
+		return Response.json({ guid: "report" }, { status: 201 });
+	}, { authToken: "player-token" });
+
+	await client.reports.create({
+		matchGuid: "match-guid",
+		targetUserGuid: "opponent-guid",
+		reason: "The opponent repeatedly abused an exploit.",
+		source: "website",
+	});
+
+	assert.deepEqual(requests, [{
+		url: "https://example.test/report",
+		method: "POST",
+		authorization: "Bearer player-token",
+		body: {
+			targetUserGuid: "opponent-guid",
+			associatedMatchGuid: "match-guid",
+			reason: "The opponent repeatedly abused an exploit.",
+			source: "website",
+		},
+	}]);
+});
+
+test("supports moderator report listing, user history, and resolution", async () => {
+	const requests = [];
+	const client = mockClient(async (url, init) => {
+		requests.push({ url, method: init.method });
+		return Response.json([]);
+	});
+
+	await client.reports.list({ filter: "unresolved" });
+	await client.reports.forUser({ userGuid: "target/user" });
+	await client.reports.resolve({ reportGuid: "report/id" });
+
+	assert.deepEqual(requests, [
+		{ url: "https://example.test/reports?filter=unresolved", method: "GET" },
+		{ url: "https://example.test/reports/target%2Fuser", method: "GET" },
+		{ url: "https://example.test/report/report%2Fid/resolve", method: "POST" },
+	]);
+});

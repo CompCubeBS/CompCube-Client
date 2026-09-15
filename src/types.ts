@@ -64,6 +64,8 @@ export type TimerStatus =
 	| "completed"
 	| "cancelled"
 	| "failed";
+export type ReportSource = "website" | "plugin";
+export type ReportFilter = "all" | "unresolved" | "resolved";
 
 export interface ApiErrorBody {
 	error: { code: string; message: string };
@@ -99,6 +101,23 @@ export interface UserModerationAction {
 	createdAt: string;
 	moderator?: User | null;
 	revokedBy?: User | null;
+}
+
+export interface Report {
+	guid: Guid;
+	matchGuid: Guid | null;
+	senderUserGuid: Guid;
+	targetUserGuid: Guid;
+	reason: string;
+	reportSource: ReportSource;
+	createdAt: string;
+	resolved: boolean;
+	resolvedAt: string | null;
+	resolvedByUserGuid: Guid | null;
+	sender?: User;
+	target?: User;
+	match?: Match | null;
+	resolvedBy?: User | null;
 }
 
 export interface Season {
