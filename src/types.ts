@@ -112,12 +112,8 @@ export interface Report {
 	reportSource: ReportSource;
 	createdAt: string;
 	resolved: boolean;
-	resolvedAt: string | null;
-	resolvedByUserGuid: Guid | null;
 	sender?: User;
 	target?: User;
-	match?: Match | null;
-	resolvedBy?: User | null;
 }
 
 export interface Season {

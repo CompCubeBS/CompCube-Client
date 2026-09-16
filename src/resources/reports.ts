@@ -1,28 +1,21 @@
 import { encode, type ClientTransport } from "../core.js";
 import type { Report, ReportFilter, ReportSource } from "../types.js";
 
-/** Authenticated player reporting and moderator review operations. */
+/** Player reporting and moderator review operations. */
 export class ReportsResource {
 	constructor(private readonly transport: ClientTransport) {}
 
 	/**
-	 * Reports an opponent from a finished match. The API derives the sender from
-	 * authentication and verifies both users were opposing competitors.
+	 * Creates a general player report. Match context is optional, so this works
+	 * from profiles and for match participants or spectators.
 	 */
 	create(input: {
-		matchGuid: string;
 		targetUserGuid: string;
 		reason: string;
 		source: ReportSource;
+		associatedMatchGuid?: string;
 	}) {
-		return this.transport.post<Report>("/report", {
-			body: {
-				targetUserGuid: input.targetUserGuid,
-				associatedMatchGuid: input.matchGuid,
-				reason: input.reason,
-				source: input.source,
-			},
-		});
+		return this.transport.post<Report>("/report", { body: input });
 	}
 
 	/** Moderator-only report queue, optionally filtered by resolution state. */
@@ -35,7 +28,7 @@ export class ReportsResource {
 		return this.transport.get<Report[]>(`/reports/${encode(input.userGuid)}`);
 	}
 
-	/** Moderator-only, idempotent resolution operation. */
+	/** Moderator-only report resolution operation. */
 	resolve(input: { reportGuid: string }) {
 		return this.transport.post<Report>(`/report/${encode(input.reportGuid)}/resolve`);
 	}
