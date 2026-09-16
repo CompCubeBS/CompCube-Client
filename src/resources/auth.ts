@@ -24,18 +24,22 @@ export class AuthResource {
 			{ query: input, auth: false },
 		);
 	}
-	refresh(refreshToken?: string) {
+	/** Exchanges a refresh token supplied explicitly as a bearer credential. */
+	refresh(refreshToken: string) {
+		const token = refreshToken.trim().replace(/^Bearer\s+/i, "");
 		return this.transport.post<OAuthToken>("/oauth/refresh", {
-			body: refreshToken ? { refreshToken } : undefined,
+			headers: { authorization: `Bearer ${token}` },
 			auth: false,
 			retryAuth: false,
 		});
 	}
-	logout() {
-		this.transport.setAuthToken(null);
-		return this.transport.post<void>("/oauth/logout", {
-			auth: false,
-			retryAuth: false,
-		});
+	async logout() {
+		try {
+			return await this.transport.post<void>("/oauth/logout", {
+				retryAuth: false,
+			});
+		} finally {
+			this.transport.setAuthToken(null);
+		}
 	}
 }

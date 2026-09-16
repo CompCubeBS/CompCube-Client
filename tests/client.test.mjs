@@ -15,7 +15,7 @@ function mockClient(handler, options = {}) {
 	});
 }
 
-test("uses the no-prefix API, secure cookies, bearer auth and query values", async () => {
+test("uses the no-prefix API, bearer auth and query values", async () => {
 	const client = mockClient(async (url, init) => {
 		assert.equal(
 			url,
@@ -30,6 +30,33 @@ test("uses the no-prefix API, secure cookies, bearer auth and query values", asy
 	});
 	client.setAuthToken("Bearer token");
 	await client.leaderboard.getRange({ start: 2, range: 10 });
+});
+
+test("sends refresh tokens as bearer headers instead of cookies or JSON", async () => {
+	const client = mockClient(async (url, init) => {
+		assert.equal(url, "https://example.test/oauth/refresh");
+		assert.equal(init.method, "POST");
+		assert.equal(init.body, undefined);
+		assert.equal(
+			new Headers(init.headers).get("authorization"),
+			"Bearer refresh-token",
+		);
+		return Response.json({ access_token: "new-access-token" });
+	});
+
+	await client.auth.refresh("Bearer refresh-token");
+});
+
+test("sends the current access bearer token on logout before clearing it", async () => {
+	const authorizations = [];
+	const client = mockClient(async (_url, init) => {
+		authorizations.push(new Headers(init.headers).get("authorization"));
+		return new Response(null, { status: 204 });
+	}, { authToken: "access-token" });
+
+	await client.auth.logout();
+	await client.get("/public");
+	assert.deepEqual(authorizations, ["Bearer access-token", null]);
 });
 
 test("supports every HTTP request method and JSON bodies", async () => {

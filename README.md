@@ -9,7 +9,7 @@ import { CompCubeClient } from "compcube-client";
 
 const client = new CompCubeClient({
 	baseUrl: "https://api.compcube.net",
-	// Optional when the backend's HttpOnly OAuth cookies are available.
+	// Required for protected calls unless getAuthToken supplies it.
 	authToken: existingAccessToken,
 });
 
@@ -21,7 +21,7 @@ const liveMatches = await client.matches
 
 Every REST method returns a typed `CompCubeResponse`. Use `.data()` to parse a successful response or inspect `ok`, `status`, headers, and the native response directly. Failed `.data()` calls throw `CompCubeApiError` with the server's error code and message.
 
-The client sends credentials automatically. It can also obtain a token asynchronously and refresh once after a `401`:
+Every protected REST request uses `Authorization: Bearer <access-token>`. Cookies are never API credentials. The client can obtain the access token asynchronously and retry once after a `401`:
 
 ```ts
 const client = new CompCubeClient({
@@ -33,7 +33,7 @@ const client = new CompCubeClient({
 });
 ```
 
-OAuth is owned by the backend. Redirect users to `client.auth.loginUrl({ returnTo: location.href })`; the API sets its secure session cookies and redirects back. `account.me()` returns the authenticated user, queue eligibility, and the BeatKhana account-linking URL when no platform ID is available.
+OAuth is owned by the backend. Redirect users to `client.auth.loginUrl({ returnTo: location.href })`; the API sets secure HttpOnly cookies and redirects back. Those cookies are frontend session storage only: the frontend reads the stored access token on its server boundary and gives it to `CompCubeClient`, which sends the bearer header. Native clients receive tokens from JSON-mode OAuth and store them appropriately. To refresh explicitly, call `client.auth.refresh(refreshToken)`; it sends the refresh token as a bearer header, never in a cookie or request body. `account.me()` returns the authenticated user, queue eligibility, and the BeatKhana account-linking URL when no platform ID is available.
 
 ## Socket.IO usage
 

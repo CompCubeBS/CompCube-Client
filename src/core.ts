@@ -9,7 +9,7 @@ export interface CompCubeClientOptions {
 	baseUrl?: string;
 	/** Socket.IO origin when it differs from the REST origin. */
 	socketUrl?: string;
-	/** Initial BeatKhana access token. Cookies are used automatically when omitted. */
+	/** Initial BeatKhana access token. Required for authenticated requests unless getAuthToken supplies it. */
 	authToken?: string | null;
 	/** Resolves the newest access token before authenticated REST and socket calls. */
 	getAuthToken?: () =>
@@ -25,7 +25,7 @@ export interface CompCubeClientOptions {
 		| Promise<string | null | undefined>;
 	/** Fetch implementation for SSR and tests. */
 	fetch?: typeof globalThis.fetch;
-	/** Fetch credentials policy. Defaults to include for secure OAuth cookies. */
+	/** Browser cookie transport policy for OAuth storage/lifecycle only. API authentication always uses a bearer header. */
 	credentials?: RequestCredentials;
 }
 
