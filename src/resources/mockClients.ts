@@ -15,6 +15,9 @@ export class MockClientsResource {
 	createMatch(input: { redPlatformId: string; bluePlatformId: string; queueGuid: string }) {
 		return this.transport.post<{ clients: MockClient[] }>("/mock-clients/matches", { body: input });
 	}
+	createQueuedMatch(input: { mockPlatformId: string }) {
+		return this.transport.post<{ client: MockClient }>("/mock-clients/matches/queued", { body: input });
+	}
 	action(input: { clientGuid: string; action: MockClientAction }) {
 		return this.transport.post<unknown>(`/mock-clients/${encode(input.clientGuid)}/actions`, { body: input.action });
 	}

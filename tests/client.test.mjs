@@ -133,6 +133,17 @@ test("map categories use the renamed public API", async () => {
 	]);
 });
 
+test("pairs a queued plugin with one mock opponent", async () => {
+	const client = mockClient(async (url, init) => {
+		assert.equal(url, "https://example.test/mock-clients/matches/queued");
+		assert.equal(init.method, "POST");
+		assert.equal(init.body, '{"mockPlatformId":"7656119"}');
+		return Response.json({ client: { guid: "mock-client" } }, { status: 201 });
+	});
+
+	await client.mockClients.createQueuedMatch({ mockPlatformId: "7656119" });
+});
+
 test("creates profile and match-context reports", async () => {
 	const requests = [];
 	const client = mockClient(async (url, init) => {

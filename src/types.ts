@@ -277,6 +277,7 @@ export interface MatchParticipant {
 	finalMmr: number | null;
 	health: number;
 	active: boolean;
+	connected: boolean;
 	joinedAt: string;
 	leftAt: string | null;
 	createdAt: string;
